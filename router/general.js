@@ -1,10 +1,9 @@
+const axios = require('axios');
 const express = require('express');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
-
-const axios = require('axios');
 
 public_users.post("/register", (req,res) => {
   //Write your code here
@@ -33,27 +32,27 @@ public_users.post("/register", (req,res) => {
 });
 
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
+public_users.get('/', async function (req, res) {
   //Write your code here
   // return res.status(300).json({message: "Yet to be implemented"});
-  res.send(JSON.stringify(books, null, 2));
+  res.send(await JSON.stringify(books, null, 2));
 });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
+public_users.get('/isbn/:isbn',async function (req, res) {
   //Write your code here
   // return res.status(300).json({message: "Yet to be implemented"});
-    const ISBN = req.params.isbn;
+    const ISBN = await req.params.isbn;
     res.send(ISBN);
  });
   
 // Get book details based on author
-public_users.get('/author/:author',function (req, res) {
+public_users.get('/author/:author',async function (req, res) {
   //Write your code here
   // return res.status(300).json({message: "Yet to be implemented"});
-    const auth = req.params.author;
-    const KEYS = Object.keys(books);
-    let filtered = [];
+    const auth = await req.params.author;
+    const KEYS = await Object.keys(books);
+    let filtered = await [];
     KEYS.forEach((each) => {
       if(books[each].author === auth) {
         filtered.push(books[each]);
@@ -63,12 +62,12 @@ public_users.get('/author/:author',function (req, res) {
 });
 
 // Get all books based on title
-public_users.get('/title/:title',function (req, res) {
+public_users.get('/title/:title',async function (req, res) {
   //Write your code here
   // return res.status(300).json({message: "Yet to be implemented"});
-    const title = req.params.title;
-    const KEYS = Object.keys(books);
-    let filtered = [];
+    const title = await req.params.title;
+    const KEYS = await Object.keys(books);
+    let filtered = await [];
     KEYS.forEach((each) => {
       if(books[parseInt(each)].title === title) {
         filtered.push(books[parseInt(each)]);
@@ -78,10 +77,10 @@ public_users.get('/title/:title',function (req, res) {
 });
 
 //  Get book review
-public_users.get('/review/:isbn',function (req, res) {
+public_users.get('/review/:isbn',async function (req, res) {
   //Write your code here
   // return res.status(300).json({message: "Yet to be implemented"});
-  const ISBN = req.params.isbn;
+  const ISBN = await req.params.isbn;
   res.send(books[ISBN].reviews);
 });
 
